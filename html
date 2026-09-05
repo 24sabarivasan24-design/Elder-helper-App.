@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<title>சஹாய் — முதியோர் உதவியாளர் ஆப் முன்மாதிரி</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Noto+Sans+Tamil:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF5F0;
+    --surface:#FFFFFF;
+    --primary:#14524A;
+    --primary-dark:#0D3B35;
+    --accent:#E2A33B;
+    --accent-soft:#FBEEDA;
+    --emergency:#B23A2E;
+    --emergency-dark:#8E2C22;
+    --success:#2E7D5B;
+    --success-soft:#E1F2E8;
+    --text:#1C2624;
+    --text-muted:#5B6663;
+    --border:#DCE5DF;
+    --radius-lg: 22px;
+    --radius-md: 16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:40px 20px; min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 10%, #E4EFE5 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, #F7EAD3 0%, transparent 45%),
+      var(--bg);
+    font-family:'Noto Sans Tamil','Atkinson Hyperlegible', sans-serif;
+    display:flex; align-items:flex-start; justify-content:center;
+    gap:40px; flex-wrap:wrap;
+  }
+  .caption{ max-width:300px; padding-top:60px; color:var(--text); }
+  .caption h1{
+    font-family:'Fraunces', serif; font-size:1.9rem; font-weight:600; line-height:1.2; margin:0 0 12px;
+    color:var(--primary-dark);
+  }
+  .caption p{ color:var(--text-muted); line-height:1.55; font-size:1rem;}
+  .caption .tag{
+    display:inline-block; background:var(--accent-soft); color:var(--primary-dark);
+    border-radius:999px; padding:5px 14px; font-size:0.85rem; font-weight:700; margin-bottom:16px;
+  }
+
+  .phone{
+    width:380px; height:800px; background:#111; border-radius:44px;
+    padding:14px; box-shadow: 0 30px 60px -20px rgba(20,82,74,0.35), 0 0 0 2px #222;
+    position:relative;
+  }
+  .phone .notch{
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    width:120px; height:22px; background:#111; border-radius:0 0 16px 16px; z-index:5;
+  }
+  .screen{
+    width:100%; height:100%; background:var(--surface); border-radius:32px;
+    overflow:hidden; position:relative; display:flex; flex-direction:column;
+  }
+  .statusbar{
+    height:34px; flex:none; display:flex; align-items:center; justify-content:space-between;
+    padding:0 22px; font-size:0.75rem; font-weight:700; color:var(--text); background:var(--surface);
+    font-family:'Atkinson Hyperlegible', sans-serif;
+  }
+  .content{ flex:1; overflow-y:auto; background:var(--bg); padding:0 0 90px 0; position:relative; }
+  .content::-webkit-scrollbar{ display:none; }
+
+  .app-header{ background:var(--primary); color:#fff; padding:22px 20px 26px; border-radius:0 0 28px 28px; }
+  .app-header .greet-row{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .app-header .greeting{ font-family:'Fraunces', serif; font-size:1.4rem; font-weight:600; margin:0; }
+  .app-header .sub{ font-size:0.88rem; opacity:0.85; margin:4px 0 0; }
+  .icon-btn{
+    width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none;cursor:pointer;
+  }
+
+  .voice-banner{
+    margin:-14px 18px 18px; background:var(--accent); border-radius:var(--radius-lg);
+    padding:18px 20px; display:flex; align-items:center; gap:14px; cursor:pointer;
+    box-shadow:0 12px 24px -10px rgba(226,163,59,0.55);
+  }
+  .voice-banner .mic-circle{
+    width:52px;height:52px;border-radius:50%;background:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;flex:none; font-size:1.4rem; color:#fff;
+  }
+  .voice-banner .vb-text b{ display:block; font-size:1.02rem; color:var(--primary-dark); }
+  .voice-banner .vb-text span{ font-size:0.83rem; color:#5b4522; }
+
+  .section-title{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem; color:var(--text);
+    margin:22px 20px 12px;
+  }
+
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 18px; }
+  .tile{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:18px 14px; display:flex; flex-direction:column; gap:10px; cursor:pointer;
+    min-height:96px; justify-content:center; transition:transform .12s ease;
+  }
+  .tile:active{ transform:scale(0.96); }
+  .tile .t-icon{ font-size:1.6rem; }
+  .tile .t-label{ font-size:0.98rem; font-weight:700; color:var(--text); }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); margin:0 18px 14px; padding:16px 18px; }
+  .task-row{ display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .task-row:last-child{ border-bottom:none; }
+  .task-row .dot{ width:10px;height:10px;border-radius:50%;background:var(--accent); flex:none; }
+  .task-row .dot.done{ background:var(--success); }
+  .task-row .t-main{ font-weight:700; font-size:0.96rem; color:var(--text); }
+  .task-row .t-sub{ font-size:0.8rem; color:var(--text-muted); }
+
+  .bottomnav{
+    position:absolute; bottom:0; left:0; right:0; height:78px; background:var(--surface);
+    border-top:1px solid var(--border); display:flex; z-index:6;
+  }
+  .nav-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:4px; font-size:0.7rem; font-weight:700; color:var(--text-muted); cursor:pointer;
+  }
+  .nav-item .n-icon{ font-size:1.3rem; }
+  .nav-item.active{ color:var(--primary); }
+
+  .sos-fab{
+    position:absolute; right:16px; bottom:92px; z-index:7;
+    width:64px; height:64px; border-radius:50%; background:var(--emergency); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    font-weight:800; font-size:0.62rem; line-height:1.1; cursor:pointer;
+    box-shadow:0 10px 22px -6px rgba(178,58,46,0.65); border:3px solid #fff;
+    animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 10px 22px -6px rgba(178,58,46,0.65), 0 0 0 0 rgba(178,58,46,0.4);}
+    70%{ box-shadow:0 10px 22px -6px rgba(178,58,46,0.65), 0 0 0 14px rgba(178,58,46,0);}
+    100%{ box-shadow:0 10px 22px -6px rgba(178,58,46,0.65), 0 0 0 0 rgba(178,58,46,0);}
+  }
+  .sos-fab .sos-icon{ font-size:1.3rem; }
+
+  .feature-header{
+    display:flex; align-items:center; gap:14px; padding:20px 18px 16px; background:var(--surface);
+    border-bottom:1px solid var(--border);
+  }
+  .back-btn{
+    width:38px;height:38px;border-radius:50%; background:var(--bg); display:flex;align-items:center;justify-content:center;
+    cursor:pointer; font-size:1.1rem; flex:none;
+  }
+  .feature-header h2{ font-family:'Fraunces', serif; font-size:1.15rem; margin:0; color:var(--text); }
+
+  .list-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+    margin:14px 18px; padding:16px; display:flex; gap:14px; align-items:center;
+  }
+  .list-card .avatar{
+    width:48px;height:48px;border-radius:14px; background:var(--accent-soft); color:var(--primary-dark);
+    display:flex; align-items:center;justify-content:center; font-size:1.3rem; flex:none;
+  }
+  .list-card .lc-title{ font-weight:700; color:var(--text); font-size:0.96rem; }
+  .list-card .lc-sub{ font-size:0.8rem; color:var(--text-muted); margin-top:2px; }
+  .pill-btn{
+    background:var(--primary); color:#fff; border:none; border-radius:999px; padding:9px 16px;
+    font-weight:700; font-size:0.8rem; font-family:inherit; cursor:pointer; margin-left:auto; flex:none;
+    white-space:nowrap;
+  }
+  .pill-btn.done{ background:var(--success); }
+  .pill-btn:disabled{ opacity:0.9; cursor:default; }
+
+  .cta-primary{
+    display:block; width:calc(100% - 36px); margin:20px 18px; background:var(--primary); color:#fff;
+    border:none; border-radius:var(--radius-md); padding:16px; font-size:1rem; font-weight:700;
+    font-family:inherit; cursor:pointer;
+  }
+  .cta-primary.done{ background:var(--success); }
+  .cta-outline{
+    display:block; width:calc(100% - 36px); margin:8px 18px 20px; background:transparent; color:var(--primary);
+    border:2px solid var(--primary); border-radius:var(--radius-md); padding:14px; font-size:0.96rem; font-weight:700;
+    font-family:inherit; cursor:pointer;
+  }
+
+  .info-banner{ margin:14px 18px; background:var(--accent-soft); border-radius:var(--radius-md); padding:14px 16px; font-size:0.84rem; color:#5b4522; line-height:1.4; }
+  .confirm-banner{ margin:14px 18px; background:var(--success-soft); border:1px solid var(--success); border-radius:var(--radius-md); padding:14px 16px; font-size:0.86rem; color:var(--primary-dark); line-height:1.4; display:none; }
+  .confirm-banner.show{ display:block; }
+
+  .voice-screen{ display:flex; flex-direction:column; align-items:center; padding:34px 24px 16px; text-align:center;}
+  .big-mic{
+    width:120px;height:120px;border-radius:50%; background:var(--primary); color:#fff;
+    display:flex;align-items:center;justify-content:center; font-size:2.4rem; margin:16px auto;
+    box-shadow:0 0 0 14px rgba(20,82,74,0.12), 0 0 0 28px rgba(20,82,74,0.06); cursor:pointer;
+    position:relative;
+  }
+  .big-mic::after{
+    content:''; position:absolute; inset:-8px; border-radius:50%; border:2px solid var(--primary);
+    opacity:0.35; animation:ring 2.6s infinite;
+  }
+  @keyframes ring{ 0%{ transform:scale(1); opacity:0.4;} 100%{ transform:scale(1.35); opacity:0;} }
+  .voice-screen .vs-title{ font-family:'Fraunces', serif; font-size:1.2rem; color:var(--text); margin:6px 0 4px;}
+  .voice-screen .vs-sub{ color:var(--text-muted); font-size:0.88rem; margin-bottom:6px; }
+  .lang-row{ display:flex; gap:8px; margin-top:8px; }
+  .lang-pill{ font-size:0.75rem; font-weight:700; padding:5px 12px; border-radius:999px; background:var(--accent-soft); color:var(--primary-dark); }
+  .lang-pill.active{ background:var(--primary); color:#fff; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:0 18px; }
+  .chip{ background:var(--surface); border:1px solid var(--border); border-radius:999px; padding:9px 14px; font-size:0.8rem; font-weight:700; color:var(--text); cursor:pointer; }
+  .bubble{ max-width:80%; padding:12px 16px; border-radius:16px; font-size:0.88rem; margin:8px 18px; line-height:1.45; }
+  .bubble.ai{ background:var(--surface); border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:4px;}
+  .bubble.user{ background:var(--primary); color:#fff; margin-left:auto; border-bottom-right-radius:4px;}
+  .bubble-wrap{ display:flex; flex-direction:column; padding:8px 0 20px; }
+
+  .emg-hero{ background:var(--emergency); padding:28px 24px 32px; text-align:center; color:#fff; border-radius:0 0 28px 28px; position:relative;}
+  .emg-hero .big-sos{
+    width:140px;height:140px;border-radius:50%; background:#fff; color:var(--emergency);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; margin:14px auto 6px;
+    font-weight:800; font-size:1.5rem; cursor:pointer; box-shadow:0 0 0 10px rgba(255,255,255,0.18);
+  }
+  .emg-hero .big-sos span{ font-size:0.66rem; font-weight:700; margin-top:4px; }
+  .medid-row{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); font-size:0.88rem;}
+  .medid-row:last-child{ border-bottom:none; }
+  .medid-row .k{ color:var(--text-muted); }
+  .medid-row .v{ font-weight:700; color:var(--text); }
+
+  .toggle-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 0;}
+  .switch{ width:46px;height:26px; background:var(--border); border-radius:999px; position:relative; cursor:pointer; flex:none;}
+  .switch.on{ background:var(--primary); }
+  .switch .knob{ width:20px;height:20px;background:#fff;border-radius:50%; position:absolute; top:3px; left:3px; transition:left .15s;}
+  .switch.on .knob{ left:23px; }
+
+  .screen-view{ display:none; height:100%; flex-direction:column; }
+  .screen-view.active{ display:flex; }
+
+  /* SOS overlay modal */
+  .sos-overlay{
+    position:absolute; inset:0; background:rgba(20,20,20,0.55); z-index:20;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .sos-overlay.show{ display:flex; }
+  .sos-sheet{
+    width:100%; background:var(--surface); border-radius:28px 28px 0 0; padding:26px 22px 30px;
+    max-height:80%; overflow-y:auto;
+  }
+  .sos-sheet h3{ font-family:'Fraunces', serif; color:var(--emergency); font-size:1.2rem; margin:0 0 4px; }
+  .sos-sheet .sos-sub{ color:var(--text-muted); font-size:0.85rem; margin-bottom:16px; }
+  .sos-step{ display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border); }
+  .sos-step:last-child{ border-bottom:none; }
+  .sos-step .s-icon{ width:34px;height:34px;border-radius:50%; background:var(--success-soft); color:var(--success); display:flex;align-items:center;justify-content:center; font-size:1rem; flex:none;}
+  .sos-step .s-icon.pending{ background:var(--accent-soft); color:var(--accent); }
+  .sos-step .s-main{ font-weight:700; font-size:0.9rem; color:var(--text); }
+  .sos-step .s-sub{ font-size:0.78rem; color:var(--text-muted); }
+  .sos-close{
+    margin-top:16px; width:100%; background:var(--bg); border:none; border-radius:var(--radius-md);
+    padding:14px; font-weight:700; font-family:inherit; font-size:0.92rem; color:var(--text); cursor:pointer;
+  }
+
+  /* Toast */
+  .toast{
+    position:absolute; top:14px; left:18px; right:18px; background:var(--success); color:#fff;
+    border-radius:14px; padding:12px 16px; font-size:0.85rem; font-weight:700; text-align:center;
+    z-index:15; transform:translateY(-120%); transition:transform .3s ease; box-shadow:0 10px 20px -8px rgba(0,0,0,0.3);
+  }
+  .toast.show{ transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="caption">
+  <span class="tag">தட்டி இயங்கும் முன்மாதிரி</span>
+  <h1>சஹாய் — ஒரே குரல், ஆறு வேலைகள் முடிந்தது</h1>
+  <p>விரைவு-செயல் டைல்களை, கீழ் பட்டியை, அல்லது மைக்கைத் தட்டி திரைகளுக்கு இடையே செல்லுங்கள். பதிவு, ஆர்டர் மற்றும் SOS பொத்தான்கள் இப்போது உண்மையாக வேலை செய்கின்றன (உண்மையான பணம்/அழைப்பு இல்லை).</p>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="screen">
+    <div class="statusbar"><span>9:41</span><span>●●● 100%</span></div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="content" id="content">
+
+      <!-- HOME -->
+      <div class="screen-view active" data-screen="home">
+        <div class="app-header">
+          <div class="greet-row">
+            <div>
+              <p class="greeting">காலை வணக்கம், லக்ஷ்மி</p>
+              <p class="sub">செவ்வாய், மார்ச் 10</p>
+            </div>
+            <div class="icon-btn" onclick="go('profile')">👤</div>
+          </div>
+        </div>
+        <div class="voice-banner" onclick="go('voice')">
+          <div class="mic-circle">🎤</div>
+          <div class="vb-text"><b>பேச தட்டவும்</b><span>"வெள்ளிக்கிழமை என் கண் மருத்துவரிடம் பதிவு செய்"</span></div>
+        </div>
+
+        <p class="section-title">என்ன உதவி வேண்டும்?</p>
+        <div class="grid">
+          <div class="tile" onclick="go('hospital')"><div class="t-icon">🏥</div><div class="t-label">மருத்துவமனை</div></div>
+          <div class="tile" onclick="go('medicine')"><div class="t-icon">💊</div><div class="t-label">மருந்து</div></div>
+          <div class="tile" onclick="go('transport')"><div class="t-icon">🚗</div><div class="t-label">போக்குவரத்து</div></div>
+          <div class="tile" onclick="go('grocery')"><div class="t-icon">🛒</div><div class="t-label">மளிகை</div></div>
+          <div class="tile" onclick="go('payments')"><div class="t-icon">💳</div><div class="t-label">கட்டணங்கள்</div></div>
+          <div class="tile" onclick="go('emergency')"><div class="t-icon">🚨</div><div class="t-label">அவசரநிலை</div></div>
+        </div>
+
+        <p class="section-title">இன்று</p>
+        <div class="card" id="home-tasks">
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">டாக்டர் ரமேஷ் — கண் பரிசோதனை</div><div class="t-sub">மாலை 4:00 · வாகனம் பதிவு</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">பிபி மருந்து தேவை</div><div class="t-sub">இரவு 8:00 · 3 நாட்களுக்கான இருப்பு</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">மின்சார பில்</div><div class="t-sub">4 நாட்களில் செலுத்த வேண்டும் · ₹1,240</div></div></div>
+        </div>
+      </div>
+
+      <!-- VOICE -->
+      <div class="screen-view" data-screen="voice">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>குரல் உதவியாளர்</h2></div>
+        <div class="voice-screen">
+          <div class="big-mic" onclick="listenDemo()">🎤</div>
+          <p class="vs-title" id="voice-status">கேட்டுக் கொண்டிருக்கிறேன்…</p>
+          <p class="vs-sub">தமிழிலும், ஆங்கிலத்திலும் பேசலாம்</p>
+          <div class="lang-row">
+            <div class="lang-pill active">தமிழ்</div>
+            <div class="lang-pill">English</div>
+            <div class="lang-pill">हिंदी</div>
+          </div>
+        </div>
+        <div class="bubble-wrap">
+          <div class="bubble user">என் கண் மருத்துவரிடம் வெள்ளிக்கிழமை பதிவு செய்</div>
+          <div class="bubble ai">டாக்டர் ரமேஷிடம் இந்த வெள்ளிக்கிழமை மாலை 4:00 மணிக்கு நேரம் உள்ளது. பதிவு செய்யவா, வழக்கமான வாகனத்தையும் ஏற்பாடு செய்யவா?</div>
+          <div class="bubble user">சரி, இரண்டையும் செய்</div>
+          <div class="bubble ai">முடிந்தது. வெள்ளி மாலை 4:00 மணிக்கு அப்பாயிண்ட்மென்ட் உறுதி, 3:30 மணிக்கு வாகனமும் பதிவு. உங்கள் மகன் அருணுக்கும் தெரிவித்துவிட்டேன்.</div>
+        </div>
+        <p class="section-title">இப்படி சொல்லி பாருங்கள்</p>
+        <div class="chip-row">
+          <div class="chip" onclick="go('medicine')">என் மருந்துகளை ஆர்டர் செய்</div>
+          <div class="chip" onclick="go('transport')">வீட்டிற்கு வாகனம் பதிவு செய்</div>
+          <div class="chip" onclick="go('payments')">மின்சார பில் செலுத்து</div>
+        </div>
+      </div>
+
+      <!-- HOSPITAL -->
+      <div class="screen-view" data-screen="hospital">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>மருத்துவமனை &amp; மருத்துவர்கள்</h2></div>
+        <div class="info-banner">உங்கள் வழக்கமான மருத்துவர்கள் முதலில் காட்டப்படுவார்கள். "என் வழக்கமான மருத்துவரிடம் பதிவு செய்" என்று சொன்னால் போதும்.</div>
+        <div class="confirm-banner" id="hospital-confirm"></div>
+
+        <div class="list-card">
+          <div class="avatar">👁️</div>
+          <div><div class="lc-title">டாக்டர் ரமேஷ் ஐயர்</div><div class="lc-sub">கண் மருத்துவர் · அப்பல்லோ கிளினிக் · 2.1 கி.மீ</div></div>
+          <button class="pill-btn" onclick="bookDoctor(this,'வெள்ளி, மாலை 4:00')">பதிவு செய்</button>
+        </div>
+        <div class="list-card">
+          <div class="avatar">❤️</div>
+          <div><div class="lc-title">டாக்டர் பிரியா நாயர்</div><div class="lc-sub">இதய மருத்துவர் · சிட்டி மருத்துவமனை · 3.4 கி.மீ</div></div>
+          <button class="pill-btn" onclick="bookDoctor(this,'திங்கள், காலை 11:00')">பதிவு செய்</button>
+        </div>
+        <div class="list-card">
+          <div class="avatar">🦴</div>
+          <div><div class="lc-title">டாக்டர் சுரேஷ் ராவ்</div><div class="lc-sub">எலும்பியல் மருத்துவர் · சன்ரைஸ் மருத்துவமனை · 4.0 கி.மீ</div></div>
+          <button class="pill-btn" onclick="bookDoctor(this,'புதன், மாலை 5:30')">பதிவு செய்</button>
+        </div>
+        <button class="cta-outline">வேறு மருத்துவரைத் தேடு</button>
+      </div>
+
+      <!-- MEDICINE -->
+      <div class="screen-view" data-screen="medicine">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>மருந்துகள்</h2></div>
+        <div class="card">
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">டெல்மிசார்டன் 40mg</div><div class="t-sub">1 ஸ்ட்ரிப் மட்டும் உள்ளது · இப்போது ஆர்டர் செய்யலாம்</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">மெட்ஃபார்மின் 500mg</div><div class="t-sub">2 ஸ்ட்ரிப் உள்ளது</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">கால்சியம் + D3</div><div class="t-sub">போதுமான இருப்பு உள்ளது</div></div></div>
+        </div>
+        <button class="cta-primary" id="med-btn" onclick="placeOrder('med-btn','medicine-confirm','நாளை மாலை 6 மணிக்குள்')">கடந்த மாத ஆர்டர் போலவே மீண்டும் ஆர்டர் செய்</button>
+        <div class="confirm-banner" id="medicine-confirm"></div>
+        <button class="cta-outline">புதிய மருந்துச்சீட்டை பதிவேற்று</button>
+      </div>
+
+      <!-- TRANSPORT -->
+      <div class="screen-view" data-screen="transport">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>வாகனம் பதிவு செய்</h2></div>
+        <div class="card">
+          <div class="medid-row"><span class="k">ஏற்றுமிடம்</span><span class="v">வீடு</span></div>
+          <div class="medid-row"><span class="k">இறக்குமிடம்</span><span class="v">அப்பல்லோ கிளினிக்</span></div>
+          <div class="medid-row"><span class="k">கணக்கிடப்பட்ட கட்டணம்</span><span class="v">₹180–210</span></div>
+          <div class="medid-row"><span class="k">வருகை நேரம்</span><span class="v">6 நிமிடங்கள்</span></div>
+        </div>
+        <div class="info-banner">வாகனம் வந்தவுடன் ஓட்டுநர் பெயர், படம் மற்றும் வண்டி எண் உரக்கப் படிக்கப்படும். உங்கள் பயணம் தானாகவே அருண் (மகன்) உடன் நேரடியாக பகிரப்படும்.</div>
+        <button class="cta-primary" id="ride-btn" onclick="placeOrder('ride-btn','ride-confirm','6 நிமிடங்களில்')">இந்த வாகனத்தை பதிவு செய்</button>
+        <div class="confirm-banner" id="ride-confirm"></div>
+      </div>
+
+      <!-- GROCERY -->
+      <div class="screen-view" data-screen="grocery">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>மளிகை &amp; அத்தியாவசியப் பொருட்கள்</h2></div>
+        <div class="info-banner">இது உங்கள் வழக்கமான பட்டியல், முந்தைய ஆர்டர்களிலிருந்து உருவாக்கப்பட்டது. மாற்றம் இருந்தால் மட்டும் சொல்லுங்கள்.</div>
+        <div class="list-card"><div class="avatar">🍚</div><div><div class="lc-title">அரிசி, 5 கிலோ</div><div class="lc-sub">ஒவ்வொரு 3 வாரமும் ஆர்டர்</div></div></div>
+        <div class="list-card"><div class="avatar">🥛</div><div><div class="lc-title">பால், 1 லிட்டர் (தினமும்)</div><div class="lc-sub">நிலையான சந்தா</div></div></div>
+        <div class="list-card"><div class="avatar">🧅</div><div><div class="lc-title">வெங்காயம் &amp; தக்காளி</div><div class="lc-sub">வழக்கமான வார அளவு</div></div></div>
+        <button class="cta-primary" id="grocery-btn" onclick="placeOrder('grocery-btn','grocery-confirm','நாளை மதியத்திற்குள்')">கடந்த வாரம் போலவே மீண்டும் ஆர்டர் செய்</button>
+        <div class="confirm-banner" id="grocery-confirm"></div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="screen-view" data-screen="payments">
+        <div class="feature-header"><div class="back-btn" onclick="go('home')">←</div><h2>பில்கள் &amp; கட்டணங்கள்</h2></div>
+        <div class="list-card"><div class="avatar">⚡</div><div><div class="lc-title">மின்சாரம் — TNEB</div><div class="lc-sub">₹1,240 · 4 நாட்களில் செலுத்த வேண்டும்</div></div><button class="pill-btn" onclick="payBill(this)">செலுத்து</button></div>
+        <div class="list-card"><div class="avatar">🩺</div><div><div class="lc-title">சுகாதார காப்பீடு பிரீமியம்</div><div class="lc-sub">₹4,500 · 12 நாட்களில் செலுத்த வேண்டும்</div></div><button class="pill-btn" onclick="payBill(this)">செலுத்து</button></div>
+        <div class="list-card"><div class="avatar">💧</div><div><div class="lc-title">தண்ணீர் பில்</div><div class="lc-sub">₹210</div></div><button class="pill-btn done" disabled>செலுத்தப்பட்டது ✓</button></div>
+        <div class="info-banner">₹2,000-க்கு மேற்பட்ட கட்டணங்களுக்கு அருண் (மகன்) உறுதிப்படுத்திய பின்னரே பணம் செலுத்தப்படும். இதை சுயவிவரத்தில் மாற்றலாம்.</div>
+      </div>
+
+      <!-- EMERGENCY -->
+      <div class="screen-view" data-screen="emergency">
+        <div class="emg-hero">
+          <div class="back-btn" style="background:rgba(255,255,255,0.2);color:#fff;position:absolute;left:18px;top:20px;" onclick="go('home')">←</div>
+          <div class="big-sos" onclick="triggerSOS()">SOS<span>உதவிக்கு அழுத்தவும்</span></div>
+          <p style="margin:6px 0 0; font-size:0.84rem; opacity:0.9;">ஒரே தட்டலில் குடும்பம் மற்றும் அவசர சேவைகளுக்கு தகவல் செல்லும்</p>
+        </div>
+        <p class="section-title">மருத்துவ அடையாள அட்டை</p>
+        <div class="card">
+          <div class="medid-row"><span class="k">ரத்த வகை</span><span class="v">B+</span></div>
+          <div class="medid-row"><span class="k">உடல்நலப் பிரச்சினைகள்</span><span class="v">உயர் ரத்த அழுத்தம், டைப்-2 சர்க்கரை நோய்</span></div>
+          <div class="medid-row"><span class="k">ஒவ்வாமைகள்</span><span class="v">பென்சிலின்</span></div>
+          <div class="medid-row"><span class="k">அவசர தொடர்பு</span><span class="v">அருண் (மகன்) · +91 98xxxxx210</span></div>
+        </div>
+        <p class="section-title">நேரடி இருப்பிட பகிர்வு</p>
+        <div class="card">
+          <div class="toggle-row"><span>அருண் &amp; மீனாவுடன் பகிர்</span><div class="switch on" onclick="this.classList.toggle('on')"><div class="knob"></div></div></div>
+        </div>
+      </div>
+
+      <!-- TASKS -->
+      <div class="screen-view" data-screen="tasks">
+        <div class="feature-header"><h2>இன்று &amp; வரவிருக்கும் நாட்கள்</h2></div>
+        <div class="card" id="tasks-list">
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">கண் பரிசோதனை — டாக்டர் ரமேஷ்</div><div class="t-sub">வெள்ளி, மாலை 4:00 · வாகனம் உறுதி</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">பிபி மருந்து மீண்டும் ஆர்டர்</div><div class="t-sub">இன்று பரிந்துரை · 3 நாட்கள் இருப்பு</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">மின்சார பில் செலுத்து</div><div class="t-sub">4 நாட்களில் செலுத்த வேண்டும்</div></div></div>
+          <div class="task-row"><div class="dot"></div><div><div class="t-main">மளிகை — வார ஆர்டர்</div><div class="t-sub">பொதுவாக ஞாயிறு அன்று</div></div></div>
+        </div>
+        <div class="info-banner">3 நாட்களாக நடைப்பயிற்சி பதிவு இல்லை என்று சஹாய் கவனித்தது. எல்லாம் நலமா?</div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="screen-view" data-screen="profile">
+        <div class="feature-header"><h2>சுயவிவரம் &amp; குடும்பம்</h2></div>
+        <div class="card">
+          <div class="medid-row"><span class="k">பெயர்</span><span class="v">லக்ஷ்மி கிருஷ்ணன்</span></div>
+          <div class="medid-row"><span class="k">மொழி</span><span class="v">தமிழ் + ஆங்கிலம்</span></div>
+          <div class="medid-row"><span class="k">எழுத்து அளவு</span><span class="v">பெரியது</span></div>
+        </div>
+        <p class="section-title">இணைக்கப்பட்ட குடும்பம்</p>
+        <div class="list-card"><div class="avatar">👨</div><div><div class="lc-title">அருண் (மகன்)</div><div class="lc-sub">முழு அணுகல்</div></div></div>
+        <div class="list-card"><div class="avatar">👩</div><div><div class="lc-title">மீனா (மருமகள்)</div><div class="lc-sub">அவசர தகவல்கள் மட்டும்</div></div></div>
+        <button class="cta-outline">குடும்ப அணுகலை நிர்வகி</button>
+      </div>
+
+    </div>
+
+    <div class="sos-fab" onclick="go('emergency')"><div class="sos-icon">🚨</div>SOS</div>
+
+    <div class="bottomnav">
+      <div class="nav-item active" data-nav="home" onclick="go('home')"><span class="n-icon">🏠</span>முகப்பு</div>
+      <div class="nav-item" data-nav="voice" onclick="go('voice')"><span class="n-icon">🎤</span>குரல்</div>
+      <div class="nav-item" data-nav="tasks" onclick="go('tasks')"><span class="n-icon">📋</span>பணிகள்</div>
+      <div class="nav-item" data-nav="profile" onclick="go('profile')"><span class="n-icon">👤</span>சுயவிவரம்</div>
+    </div>
+
+    <!-- SOS overlay -->
+    <div class="sos-overlay" id="sos-overlay">
+      <div class="sos-sheet">
+        <h3>🚨 அவசர உதவி இயக்கப்பட்டது</h3>
+        <p class="sos-sub">உங்கள் இருப்பிடம் பகிரப்படுகிறது, கீழே உள்ளவை நடந்து கொண்டிருக்கின்றன:</p>
+        <div id="sos-steps"></div>
+        <button class="sos-close" onclick="closeSOS()">சரி, புரிந்தது — மூடு</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function go(name){
+  document.querySelectorAll('.screen-view').forEach(el=>el.classList.remove('active'));
+  document.querySelector('[data-screen="'+name+'"]').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  var navMap = {home:'home', voice:'voice', tasks:'tasks', profile:'profile'};
+  if(navMap[name]){ document.querySelector('[data-nav="'+navMap[name]+'"]').classList.add('active'); }
+  document.getElementById('content').scrollTop = 0;
+}
+
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+function bookDoctor(btn, dateText){
+  btn.textContent = 'பதிவு ✓ ' + dateText;
+  btn.classList.add('done');
+  btn.disabled = true;
+  var banner = document.getElementById('hospital-confirm');
+  banner.textContent = '✅ பதிவு உறுதி செய்யப்பட்டது — ' + dateText + '. இந்த நேரம் உங்கள் பணிகள் பட்டியலில் சேர்க்கப்பட்டுள்ளது, அருணுக்கும் தகவல் அனுப்பப்பட்டது.';
+  banner.classList.add('show');
+  showToast('அப்பாயிண்ட்மென்ட் பதிவு செய்யப்பட்டது ✓');
+}
+
+function placeOrder(btnId, bannerId, etaText){
+  var btn = document.getElementById(btnId);
+  btn.textContent = 'ஆர்டர் செய்யப்பட்டது ✓ — ' + etaText + ' வரும்';
+  btn.classList.add('done');
+  btn.disabled = true;
+  var banner = document.getElementById(bannerId);
+  banner.textContent = '✅ ஆர்டர் வைக்கப்பட்டது. வரும் நேரம்: ' + etaText + '. உறுதிச் செய்தி உங்கள் பணிகள் பட்டியலில் காணலாம்.';
+  banner.classList.add('show');
+  showToast('ஆர்டர் உறுதி செய்யப்பட்டது ✓');
+}
+
+function payBill(btn){
+  btn.textContent = 'செலுத்தப்பட்டது ✓';
+  btn.classList.add('done');
+  btn.disabled = true;
+  showToast('கட்டணம் செலுத்தப்பட்டது ✓');
+}
+
+function listenDemo(){
+  var s = document.getElementById('voice-status');
+  s.textContent = 'கேட்டுக் கொண்டிருக்கிறேன்…';
+  setTimeout(()=>{ s.textContent = 'புரிந்துகொண்டேன், செய்கிறேன்…'; }, 900);
+  setTimeout(()=>{ s.textContent = 'தயார்! கீழே பாருங்கள்.'; }, 1900);
+}
+
+var sosSteps = [
+  {icon:'📍', main:'இருப்பிடம் கண்டறியப்பட்டது', sub:'GPS துல்லியமாக பகிரப்படுகிறது'},
+  {icon:'🚑', main:'ஆம்புலன்ஸ் (108) அழைக்கப்படுகிறது', sub:'இணைக்கப்படுகிறது…'},
+  {icon:'👨', main:'அருண் (மகன்) - தகவல் அனுப்பப்பட்டது', sub:'SMS + அழைப்பு'},
+  {icon:'👩', main:'மீனா (மருமகள்) - தகவல் அனுப்பப்பட்டது', sub:'SMS'}
+];
+
+function triggerSOS(){
+  var wrap = document.getElementById('sos-steps');
+  wrap.innerHTML = '';
+  sosSteps.forEach(function(step, i){
+    var el = document.createElement('div');
+    el.className = 'sos-step';
+    el.innerHTML = '<div class="s-icon pending" id="sos-icon-'+i+'">'+step.icon+'</div><div><div class="s-main">'+step.main+'</div><div class="s-sub" id="sos-sub-'+i+'">'+step.sub+'</div></div>';
+    wrap.appendChild(el);
+  });
+  document.getElementById('sos-overlay').classList.add('show');
+  sosSteps.forEach(function(step, i){
+    setTimeout(function(){
+      document.getElementById('sos-icon-'+i).classList.remove('pending');
+      document.getElementById('sos-icon-'+i).textContent = '✅';
+      document.getElementById('sos-sub-'+i).textContent = 'முடிந்தது';
+    }, 600 + i*650);
+  });
+}
+function closeSOS(){ document.getElementById('sos-overlay').classList.remove('show'); }
+</script>
+</body>
+</html>
